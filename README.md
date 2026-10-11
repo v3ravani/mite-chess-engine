@@ -6,10 +6,10 @@
 
 A compact chess engine targeting 2000-Elo-class strength in under 220 KB.
 
-[![Estimated Strength](https://img.shields.io/badge/Strength-~2000%20Elo-blueviolet.svg)](#benchmark-results) [![Source Size](https://img.shields.io/badge/Source%20Size-%3C%2020%20KB-brightgreen.svg)](src/Mite.c) [![Protocol: UCI](https://img.shields.io/badge/Protocol-UCI-green.svg)](https://en.wikipedia.org/wiki/Universal_Chess_Interface) [![Play Online](https://img.shields.io/badge/Play%20Online-Hugging%20Face%20Space-yellow.svg)](https://huggingface.co/spaces/virajravani/mite-chess)<br>
-[![Version](https://img.shields.io/badge/Version-2.0-blue.svg)](SECURITY.md) [![Binary Size](https://img.shields.io/badge/Binary%20Size-~115%20KB-orange.svg)](bin/Mite.exe) [![Language: C](https://img.shields.io/badge/Language-C99-blue.svg)](src/Mite.c) [![Platform: Windows | POSIX | WASM](https://img.shields.io/badge/Platform-Windows%20%7C%20POSIX%20%7C%20WASM-lightgrey.svg)](src/Mite.c) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Estimated Strength](https://img.shields.io/badge/Strength-~2000%20Elo-blueviolet.svg)](#benchmark-results) [![Source Size](https://img.shields.io/badge/Source%20Size-%3C%2020%20KB-brightgreen.svg)](src/Mite.c) [![Protocol: UCI](https://img.shields.io/badge/Protocol-UCI-green.svg)](https://en.wikipedia.org/wiki/Universal_Chess_Interface) [![Play Online](https://img.shields.io/badge/Play_Online-Hugging_Face-yellow.svg)](https://huggingface.co/spaces/virajravani/mite-chess)<br>
+[![Version](https://img.shields.io/badge/Version-2.0-blue.svg)](SECURITY.md) [![Binary Size](https://img.shields.io/badge/Binary%20Size-~115%20KB-orange.svg)](bin/Mite.exe) [![Language: C](https://img.shields.io/badge/Language-C99-blue.svg)](src/Mite.c) [![Platform: Windows | POSIX](https://img.shields.io/badge/Platform-Windows%20%7C%20POSIX-lightgrey.svg)](src/Mite.c) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> 🎮 **Play Mite Online Now**: Experience the engine live in your web browser with zero installation on the official [Hugging Face Static Space](https://huggingface.co/spaces/virajravani/mite-chess)!
+**Play Mite Online Now**: Experience the engine live in your web browser with zero installation on the official [Hugging Face Space](https://huggingface.co/spaces/virajravani/mite-chess)!
 
 ---
 
