@@ -34,6 +34,7 @@ A step-by-step, practical guide for Windows developers to compile the **Mite** c
   - [5.2 Arena Chess GUI](#52-arena-chess-gui)
   - [5.3 Banksia GUI](#53-banksia-gui)
   - [5.4 Online & Competitive Platforms (Code Arena, Lichess)](#54-online--competitive-platforms-code-arena-lichess)
+  - [5.5 In-Browser Web Play (Hugging Face Static Space)](#55-in-browser-web-play-hugging-face-static-space)
 - [6. Analyze Results](#6-analyze-results)
   - [6.1 Reading Cute Chess CLI Output](#61-reading-cute-chess-cli-output)
   - [6.2 Calculating Scores & Elo Differences](#62-calculating-scores--elo-differences)
@@ -550,6 +551,18 @@ Mite can be hosted as an online bot on Lichess using the open-source [`lichess-b
 2. Clone the `lichess-bot` Python client.
 3. In `config.yml`, set the engine path to your local `bin/Mite.exe` with protocol `uci`.
 4. Run the Python client to allow human players or other bots to challenge Mite in online rated matches.
+
+---
+
+### 5.5 In-Browser Web Play (Hugging Face Static Space)
+
+Mite is compiled to WebAssembly and deployed as a free, public Hugging Face Static Space:
+
+ **[https://huggingface.co/spaces/virajravani/mite-chess](https://huggingface.co/spaces/virajravani/mite-chess)**
+
+- **No installation or downloads required**: Play live against Mite in any web browser on desktop, laptop, tablet, or smartphone.
+- **WebAssembly & Web Worker**: Runs the actual C chess logic in WebAssembly (`engine/mite.wasm`, ~60 KB) inside a background Web Worker (~800,000–1,500,000 nodes/sec).
+- **Space Source & Documentation**: Complete WebAssembly source code, build scripts, and deployment instructions are maintained in the [`huggingface/`](huggingface/) directory.
 
 ---
 

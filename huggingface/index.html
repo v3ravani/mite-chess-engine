@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play chess against Mite engine powered by WebAssembly.">
+  <title>Mite Chess</title>
+  <link rel="icon" type="image/png" href="assets/mite_logo.png">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+          <path d="M5 20h14"></path>
+          <path d="M7 16h10"></path>
+          <path d="M8 12h8"></path>
+          <path d="M9 8h6"></path>
+          <path d="M12 4v4"></path>
+        </svg>
+      </div>
+      <span class="brand-text">Mite Chess</span>
+      <span class="brand-tag">WASM 2.0</span>
+    </div>
+    <div class="header-tools">
+      <button id="sound-btn" class="icon-btn active" title="Sound Toggle" aria-label="Toggle Sound">
+        <svg id="sound-icon-on" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+        <svg id="sound-icon-off" class="is-hidden" style="display:none;" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+      </button>
+      <button id="flip-btn" class="icon-btn" title="Flip Board (F)" aria-label="Flip Board">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+          <polyline points="1 4 1 10 7 10"></polyline>
+          <polyline points="23 20 23 14 17 14"></polyline>
+          <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Board Arena (Left Column) -->
+    <section class="board-arena">
+
+      <!-- Opponent Strip (Mite) -->
+      <div class="player-strip top-strip">
+        <div class="player-meta">
+          <span id="top-badge" class="player-badge badge-black"></span>
+          <div class="player-info-col">
+            <div class="player-headline">
+              <span id="top-name" class="player-title">Mite 2.0</span>
+              <span id="top-status-pill" class="status-pill">Ready</span>
+            </div>
+            <div class="captured-tray">
+              <div id="top-captured-box"></div>
+              <span id="top-material-lead" class="material-lead"></span>
+            </div>
+          </div>
+        </div>
+        <div id="top-clock" class="clock-display">3:00</div>
+      </div>
+
+      <!-- Chessboard Surface -->
+      <div class="board-frame">
+        <div id="board" class="chess-grid"></div>
+      </div>
+
+      <!-- User Strip (Player) -->
+      <div class="player-strip bottom-strip">
+        <div class="player-meta">
+          <span id="bottom-badge" class="player-badge badge-white"></span>
+          <div class="player-info-col">
+            <div class="player-headline">
+              <span id="bottom-name" class="player-title">You</span>
+            </div>
+            <div class="captured-tray">
+              <div id="bottom-captured-box"></div>
+              <span id="bottom-material-lead" class="material-lead"></span>
+            </div>
+          </div>
+        </div>
+        <div id="bottom-clock" class="clock-display">3:00</div>
+      </div>
+
+    </section>
+
+    <!-- Sidebar (Right Column) -->
+    <aside class="sidebar">
+
+      <!-- Game Status Strip -->
+      <div class="game-status-strip">
+        <div class="status-left">
+          <span id="turn-dot" class="turn-dot"></span>
+          <span id="game-status-text" class="game-status-label">White to move</span>
+        </div>
+      </div>
+
+      <!-- Diagnostics Bar -->
+      <div class="engine-diag-bar">
+        <div class="diag-item">
+          <span>eval</span>
+          <span id="diag-eval" class="diag-val eval">0.00</span>
+        </div>
+        <div class="diag-item">
+          <span id="diag-depth">d: -</span>
+        </div>
+        <div class="diag-item">
+          <span id="diag-nodes">- n</span>
+        </div>
+        <div class="diag-item">
+          <span id="diag-nps">- k/s</span>
+        </div>
+      </div>
+
+      <!-- Notation Sheet -->
+      <div class="notation-container">
+        <div class="notation-header">
+          <span>#</span>
+          <span>White</span>
+          <span>Black</span>
+        </div>
+        <div id="notation-list" class="notation-list"></div>
+      </div>
+
+      <!-- Controls Toolbar -->
+      <div class="control-toolbar">
+        <button id="new-game-btn" class="btn-primary">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          New Game
+        </button>
+        <div class="secondary-grid">
+          <button id="undo-btn" class="btn-secondary" title="Take back move (3 remaining)">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+            <span>Undo</span>
+            <span id="undo-count" class="undo-badge">3</span>
+          </button>
+          <button id="draw-btn" class="btn-secondary" title="Claim or offer draw">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+            Draw
+          </button>
+          <button id="resign-btn" class="btn-secondary" title="Resign match">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+              <line x1="4" y1="22" x2="4" y2="15"></line>
+            </svg>
+            Resign
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- Modals -->
+
+  <!-- New Game Modal -->
+  <div id="new-game-modal" class="modal-layer">
+    <div class="modal-dialog">
+      <div class="modal-head">
+        <h3 class="modal-heading">Match Settings</h3>
+        <button id="close-new-game-btn" class="modal-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Color Selection -->
+      <div class="form-group">
+        <label class="form-label">Play As</label>
+        <div class="options-grid">
+          <label class="option-pill">
+            <input type="radio" name="color-choice" value="w" checked>
+            <span class="pill-card">White</span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="color-choice" value="random">
+            <span class="pill-card">Random</span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="color-choice" value="b">
+            <span class="pill-card">Black</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Time Presets -->
+      <div class="form-group">
+        <label class="form-label">Time Control</label>
+        <div class="options-grid grid-compact">
+          <label class="option-pill">
+            <input type="radio" name="time-choice" value="bullet-1-0">
+            <span class="pill-card">1 min<span class="pill-sub">Bullet</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="time-choice" value="bullet-1-1">
+            <span class="pill-card">1 | 1<span class="pill-sub">Bullet</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="time-choice" value="blitz-3-0">
+            <span class="pill-card">3 min<span class="pill-sub">Blitz</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="time-choice" value="blitz-3-2" checked>
+            <span class="pill-card">3 | 2<span class="pill-sub">Blitz</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="time-choice" value="blitz-5-0">
+            <span class="pill-card">5 min<span class="pill-sub">Blitz</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="time-choice" value="blitz-5-3">
+            <span class="pill-card">5 | 3<span class="pill-sub">Blitz</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="time-choice" value="rapid-10-0">
+            <span class="pill-card">10 min<span class="pill-sub">Rapid</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="time-choice" value="rapid-15-10">
+            <span class="pill-card">15 | 10<span class="pill-sub">Rapid</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="time-choice" value="unlimited">
+            <span class="pill-card">Casual<span class="pill-sub">No Clock</span></span>
+          </label>
+        </div>
+
+        <div id="custom-time-box" class="custom-inputs is-hidden">
+          <div style="flex: 1;">
+            <label style="font-size: 0.7rem; color: var(--text-muted);">Minutes</label>
+            <input type="number" id="custom-minutes" class="text-input" value="5" min="1" max="180">
+          </div>
+          <div style="flex: 1;">
+            <label style="font-size: 0.7rem; color: var(--text-muted);">Increment (s)</label>
+            <input type="number" id="custom-increment" class="text-input" value="3" min="0" max="60">
+          </div>
+        </div>
+      </div>
+
+      <!-- Engine Speed -->
+      <div class="form-group">
+        <label class="form-label">Mite Search Time</label>
+        <div class="options-grid">
+          <label class="option-pill">
+            <input type="radio" name="speed-choice" value="fast">
+            <span class="pill-card">Fast<span class="pill-sub">150ms</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="speed-choice" value="standard" checked>
+            <span class="pill-card">Normal<span class="pill-sub">500ms</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="speed-choice" value="deep">
+            <span class="pill-card">Deep<span class="pill-sub">1500ms</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="speed-choice" value="tournament">
+            <span class="pill-card">Tourney<span class="pill-sub">2500ms</span></span>
+          </label>
+          <label class="option-pill">
+            <input type="radio" name="speed-choice" value="dynamic">
+            <span class="pill-card">Clock<span class="pill-sub">Dynamic</span></span>
+          </label>
+        </div>
+      </div>
+
+      <button id="start-game-btn" class="btn-primary" style="margin-top: 4px;">Start Game</button>
+    </div>
+  </div>
+
+  <!-- Promotion Picker Modal -->
+  <div id="promotion-modal" class="modal-layer">
+    <div class="modal-dialog" style="max-width: 360px; text-align: center;">
+      <h3 class="modal-heading">Promote Pawn</h3>
+      <p style="color: var(--text-muted); font-size: 0.84rem;">Select piece for promotion:</p>
+      <div id="promo-choices" class="promotion-grid"></div>
+    </div>
+  </div>
+
+  <!-- Resign Confirmation Modal -->
+  <div id="resign-modal" class="modal-layer">
+    <div class="modal-dialog" style="max-width: 340px;">
+      <h3 class="modal-heading">Resign Match</h3>
+      <p style="color: var(--text-secondary); font-size: 0.88rem;">Are you sure you want to resign the game to Mite?</p>
+      <div style="display: flex; gap: 8px; margin-top: 8px;">
+        <button id="cancel-resign-btn" class="btn-secondary" style="flex: 1; padding: 8px;">Cancel</button>
+        <button id="confirm-resign-btn" class="btn-primary" style="flex: 1; background-color: var(--accent-danger);">Resign</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Draw Offer Modal / Claim -->
+  <div id="draw-modal" class="modal-layer">
+    <div class="modal-dialog" style="max-width: 360px;">
+      <h3 id="draw-modal-heading" class="modal-heading">Draw Request</h3>
+      <p id="draw-modal-desc" style="color: var(--text-secondary); font-size: 0.88rem;"></p>
+      <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+        <button id="close-draw-btn" class="btn-secondary" style="padding: 6px 14px;">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Over Modal -->
+  <div id="game-over-modal" class="modal-layer">
+    <div class="modal-dialog" style="max-width: 380px;">
+      <div class="game-over-head">
+        <h3 id="game-over-title" class="modal-heading">Game Over</h3>
+      </div>
+      <p id="game-over-reason" class="game-over-subtitle"></p>
+      <div style="display: flex; gap: 8px; margin-top: 10px;">
+        <button id="review-btn" class="btn-secondary" style="flex: 1; padding: 8px;">Review Board</button>
+        <button id="rematch-btn" class="btn-primary" style="flex: 1; padding: 8px;">New Match</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Footer -->
+  <footer class="app-footer">
+    <span>Mite is a compact chess engine targeting ~2000 Elo in WebAssembly. Developed by <a href="https://virajravani.in/" target="_blank" rel="noopener noreferrer">Viraj Ravani</a>.</span>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="scripts/chess.js"></script>
+  <script src="scripts/game.js"></script>
+  <script src="scripts/app.js"></script>
+</body>
+</html>

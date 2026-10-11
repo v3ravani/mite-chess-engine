@@ -6,13 +6,16 @@
 
 A compact chess engine targeting 2000-Elo-class strength in under 220 KB.
 
-[![Estimated Strength](https://img.shields.io/badge/Strength-~2000%20Elo-blueviolet.svg)](#benchmark-results) [![Source Size](https://img.shields.io/badge/Source%20Size-%3C%2020%20KB-brightgreen.svg)](src/Mite.c) [![Protocol: UCI](https://img.shields.io/badge/Protocol-UCI-green.svg)](https://en.wikipedia.org/wiki/Universal_Chess_Interface)<br>
-[![Version](https://img.shields.io/badge/Version-2.0-blue.svg)](SECURITY.md) [![Binary Size](https://img.shields.io/badge/Binary%20Size-~115%20KB-orange.svg)](bin/Mite.exe) [![Language: C](https://img.shields.io/badge/Language-C99-blue.svg)](src/Mite.c) [![Platform: Windows | POSIX](https://img.shields.io/badge/Platform-Windows%20%7C%20POSIX-lightgrey.svg)](src/Mite.c) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Estimated Strength](https://img.shields.io/badge/Strength-~2000%20Elo-blueviolet.svg)](#benchmark-results) [![Source Size](https://img.shields.io/badge/Source%20Size-%3C%2020%20KB-brightgreen.svg)](src/Mite.c) [![Protocol: UCI](https://img.shields.io/badge/Protocol-UCI-green.svg)](https://en.wikipedia.org/wiki/Universal_Chess_Interface) [![Play Online](https://img.shields.io/badge/Play%20Online-Hugging%20Face%20Space-yellow.svg)](https://huggingface.co/spaces/virajravani/mite-chess)<br>
+[![Version](https://img.shields.io/badge/Version-2.0-blue.svg)](SECURITY.md) [![Binary Size](https://img.shields.io/badge/Binary%20Size-~115%20KB-orange.svg)](bin/Mite.exe) [![Language: C](https://img.shields.io/badge/Language-C99-blue.svg)](src/Mite.c) [![Platform: Windows | POSIX | WASM](https://img.shields.io/badge/Platform-Windows%20%7C%20POSIX%20%7C%20WASM-lightgrey.svg)](src/Mite.c) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+> 🎮 **Play Mite Online Now**: Experience the engine live in your web browser with zero installation on the official [Hugging Face Static Space](https://huggingface.co/spaces/virajravani/mite-chess)!
 
 ---
 
 ## Table of Contents
 
+- [Play Online (WebAssembly)](#play-online-webassembly)
 - [Introduction](#introduction)
 - [Key Features](#key-features)
 - [Benchmark Results](#benchmark-results)
@@ -20,6 +23,7 @@ A compact chess engine targeting 2000-Elo-class strength in under 220 KB.
   - [Detailed Breakdown by Time Control](#detailed-breakdown-by-time-control)
   - [Color Performance](#color-performance)
 - [Installation and Usage](#installation-and-usage)
+  - [Play Online in the Browser](#play-online-in-the-browser)
   - [Obtaining the Executable](#obtaining-the-executable)
   - [Building from Source](#building-from-source)
   - [Using with Chess GUIs](#using-with-chess-guis)
@@ -131,6 +135,16 @@ For in-depth termination breakdowns and statistical observations, refer to [`ben
 
 ## Installation and Usage
 
+### Play Online in the Browser
+
+Play against Mite instantly in any desktop, laptop, or mobile browser with zero installation:
+
+ **[https://huggingface.co/spaces/virajravani/mite-chess](https://huggingface.co/spaces/virajravani/mite-chess)**
+
+- **Genuine Engine**: Powered by Mite compiled directly to WebAssembly (`engine/mite.wasm`, ~60 KB) running in a dedicated Web Worker (~800,000–1,500,000 nodes/sec).
+- **Responsive Design**: Adapts cleanly across mobile phones, tablets, laptops, and wide screens.
+- **Complete Rules & Timing**: Supports Bullet (1+0, 1+1), Blitz (3+0, 3+2, 5+0, 5+3), Rapid (10+0, 10+5, 15+10), custom and casual formats, captured piece trays with material difference calculation, max 3 undos per match, board flip, and synthesized audio.
+
 ### Obtaining the Executable
 
 A precompiled 64-bit Windows binary is located at:
@@ -216,6 +230,15 @@ chessengine/
 │   └── overview.md                    # Comprehensive match benchmarks & performance analysis
 ├── bin/
 │   └── Mite.exe                       # Precompiled Windows static executable (~115 KB)
+├── huggingface/                       # Complete Hugging Face Static Space web application
+│   ├── assets/                        # 12 real PNG chess pieces and optimized branding
+│   ├── build/                         # WebAssembly compilation scripts (build.bat, build.sh)
+│   ├── engine/                        # WebAssembly source (mite.c), loader (mite.js), binary (mite.wasm)
+│   ├── scripts/                       # Web Worker, chess rules, game coordinator, UI controller
+│   ├── styles/                        # Responsive tournament dark theme stylesheet
+│   ├── index.html                     # Web application entry point
+│   ├── README.md                      # Hugging Face Space configuration (sdk: static)
+│   └── SETUP.md                       # Space compilation, testing, and deployment guide
 ├── src/
 │   └── Mite.c                         # Monolithic engine C source code (< 20 KB)
 ├── CONTRIBUTING.md                    # Guidelines for contributing and reporting issues
@@ -232,6 +255,7 @@ chessengine/
 - **`assets/`**: Visual assets including the engine logo and high-resolution benchmark performance charts.
 - **`benchmarks/`**: The complete raw PGN match records across all 2,600 benchmark tournament games organized by opponent folder, along with the detailed statistical overview (`overview.md`).
 - **`bin/`**: Ready-to-run precompiled engine binaries.
+- **`huggingface/`**: Standalone WebAssembly static web deployment hosted on Hugging Face Spaces for free in-browser play across desktop and mobile devices.
 - **`src/`**: Primary engine C source code.
 - **`Makefile`**: Configurable build automation script.
 - **`LICENSE`**: Open-source license terms (MIT).
