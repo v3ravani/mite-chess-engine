@@ -281,8 +281,6 @@ For specialized documentation and contributor policies, consult the dedicated re
 ## Developer and Contact
 
 Developed by **[Viraj Ravani](https://virajravani.in/)**.
-
-- **Portfolio**: [virajravani.in](https://virajravani.in/)
 - **Email**: [viraj.ravani@somaiya.edu](mailto:viraj.ravani@somaiya.edu)
 - **LinkedIn**: [linkedin.com/in/virajravani](https://www.linkedin.com/in/virajravani/)
 
