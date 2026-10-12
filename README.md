@@ -6,8 +6,10 @@
 
 A compact chess engine targeting 2000-Elo-class strength in under 220 KB.
 
-[![Estimated Strength](https://img.shields.io/badge/Strength-~2000%20Elo-blueviolet.svg)](#benchmark-results) [![Source Size](https://img.shields.io/badge/Source%20Size-%3C%2020%20KB-brightgreen.svg)](src/Mite.c) [![Protocol: UCI](https://img.shields.io/badge/Protocol-UCI-green.svg)](https://en.wikipedia.org/wiki/Universal_Chess_Interface) [![Play Online](https://img.shields.io/badge/Play_Online-Hugging_Face-yellow.svg)](https://huggingface.co/spaces/virajravani/mite-chess)<br>
+[![Estimated Strength](https://img.shields.io/badge/Strength-~2000%20Elo-blueviolet.svg)](#benchmark-results) [![Source Size](https://img.shields.io/badge/Source%20Size-%3C%2020%20KB-brightgreen.svg)](src/Mite.c) [![Protocol: UCI](https://img.shields.io/badge/Protocol-UCI-green.svg)](https://en.wikipedia.org/wiki/Universal_Chess_Interface) [![Website](https://img.shields.io/badge/Website-virajravani.in%2Fmite-205036.svg)](https://www.virajravani.in/mite) [![Play Online](https://img.shields.io/badge/Play_Online-Hugging_Face-yellow.svg)](https://huggingface.co/spaces/virajravani/mite-chess)<br>
 [![Version](https://img.shields.io/badge/Version-2.0-blue.svg)](SECURITY.md) [![Binary Size](https://img.shields.io/badge/Binary%20Size-~115%20KB-orange.svg)](bin/Mite.exe) [![Language: C](https://img.shields.io/badge/Language-C99-blue.svg)](src/Mite.c) [![Platform: Windows | POSIX](https://img.shields.io/badge/Platform-Windows%20%7C%20POSIX-lightgrey.svg)](src/Mite.c) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+**Official Website**: Explore interactive benchmarks, architecture specifications, and downloads: **[https://www.virajravani.in/mite](https://www.virajravani.in/mite)**
 
 **Play Mite Online Now**: Experience the engine live in your web browser with zero installation on the official [Hugging Face Space](https://huggingface.co/spaces/virajravani/mite-chess)!
 
@@ -281,6 +283,8 @@ For specialized documentation and contributor policies, consult the dedicated re
 ## Developer and Contact
 
 Developed by **[Viraj Ravani](https://virajravani.in/)**.
+
+- **Official Website**: [https://www.virajravani.in/mite](https://www.virajravani.in/mite)
 - **Email**: [viraj.ravani@somaiya.edu](mailto:viraj.ravani@somaiya.edu)
 - **LinkedIn**: [linkedin.com/in/virajravani](https://www.linkedin.com/in/virajravani/)
 
