@@ -19,7 +19,6 @@ A compact chess engine targeting 2000-Elo-class strength in under 220 KB.
 
 ## Table of Contents
 
-- [Play Online (WebAssembly)](#play-online-webassembly)
 - [Introduction](#introduction)
 - [Key Features](#key-features)
 - [Benchmark Results](#benchmark-results)
